@@ -1,0 +1,85 @@
+#landing-page
+{
+    .parallax-window
+    {
+        min-height : 750px;
+    }
+
+    #search-character
+    {
+        display         : flex;
+        justify-content : center;
+        align-items     : center;
+        flex-direction  : column;
+        width           : 100%;
+        padding-top     : 150px;
+
+        h1
+        {
+            color     : $white;
+            font-size : 40px;
+        }
+
+        .subtext
+        {
+            color     : $white;
+            font-size : 25px;
+        }
+
+        .search-form
+        {
+            width           : 80%;
+            padding         : 50px 150px;
+            display         : flex;
+            justify-content : space-around;
+            flex-direction  : row;
+            align-items     : flex-start;
+        }
+
+        .server-choice, .username-choice
+        {
+            display        : flex;
+            flex-direction : column;
+            align-items    : flex-start;
+
+            .server-input.dropdown, .username-input.dropdown
+            {
+                border-radius : .25rem .25rem 0 0;
+            }
+
+            .server-list, .username-list
+            {
+                background    : $light-dark;
+                border-radius : 0 0 .25rem .25rem;
+                width         : 100%;
+
+                p
+                {
+                    padding : 5px 10px;
+                    margin  : 0;
+
+                    &:hover
+                    {
+                        background : $dark;
+                        cursor     : pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .gradient-top
+    {
+        margin-top : -10px;
+        height     : 10px;
+        background : linear-gradient(0deg, $dark, transparent);
+    }
+
+    .news
+    {
+        background  : $dark;
+        padding-top : 100px;
+        box-shadow  : 0 0 5px 10px $dark;
+    }
+}
+

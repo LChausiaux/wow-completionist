@@ -3,9 +3,16 @@
 
 // Variables
 @import 'variables';
+@import 'typography';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 // Sass
+@import 'global';
+
 @import 'form';
+@import 'navbar';
+
+@import 'search-character';
+@import 'character';

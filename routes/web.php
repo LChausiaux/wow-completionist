@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CharacterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/character', [CharacterController::class, 'search'])->name('character.search');
+Route::get('/character/{region}/{server}/{username}', [CharacterController::class, 'show'])->name('character.show');
