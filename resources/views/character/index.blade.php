@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>WoW Completionist</title>
 
@@ -14,10 +13,9 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <div class="wrapper" id="app">
+        <div id="app">
             <Navbar></Navbar>
-            <landing-page servers-prop="{{$servers}}" characters-prop="{{$characters}}"
-                          search-character-url="{{ route('character.search') }}"></landing-page>
+            <character-profile id="character" character-prop="{{ $character }}" character-background-link="{{asset('images/class_backgrounds/')}}"></character-profile>
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

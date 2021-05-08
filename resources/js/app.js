@@ -4,10 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-require('./shrink-navbar');
+require('./bootstrap')
+require('./shrink-navbar')
 
 window.Vue = require('vue').default
+Vue.component('Badge', require('./components/Badge.vue').default)
 Vue.component('Form', require('./components/Form.vue').default)
 Vue.component('Navbar', require('./components/Navbar.vue').default)
 

@@ -7,34 +7,27 @@
                     <h1>WoW Completion for everyone</h1>
                     <p class="subtext">Pick a character using the form below</p>
                     <Form class="search-form" :action="searchCharacterUrl" method="post">
-                        <select v-model="region" class="input select" name="region" id="region">
-                            <option value="null" selected>--</option>
-                            <option value="US">US</option>
-                            <option value="EU">EU</option>
-                            <option value="TW">TW</option>
-                            <option value="KR">KR</option>
-                            <option value="CN">CN</option>
+                        <input autocomplete="off" type="hidden">
+                        <input type="hidden" :value="server.region" name="region">
+                        <input type="hidden" :value="server.name" name="serverName">
+                        <select v-model="server" @change="filterByServer" class="input select" name="server"
+                                id="server">
+                            <option :value="{region: null,name: null}" selected>--
+                            </option>
+                            <optgroup v-for="(serverGroup, region) in servers" :label="region">
+                                <option v-for="server in serverGroup" :value="server">{{ server.name }}</option>
+                            </optgroup>
                         </select>
-                        <div @mouseover="serverListVisible = true" class="server-choice">
-                            <input @focus="serverListVisible = true" @blur="serverListVisible = false"
-                                   v-model="server" type="text"
-                                   :class="{dropdown: serverListVisible}" class="input text server-input"
-                                   placeholder="Server" name="server">
-                            <div v-show="serverListVisible" class="server-list">
-                                <p v-if="!listServers.length">No results</p>
-                                <p v-for="server in listServers" @click="bindServer(server)">
-                                    {{ server.region }}-{{ server.server }}</p>
-                            </div>
-                        </div>
                         <div @mouseover="usernameListVisible = true" class="server-choice">
-                            <input @focus="usernameListVisible = true" @blur="usernameListVisible = false"
+                            <input @input="filterByUsername" @focus="usernameListVisible = true"
+                                   @blur="usernameListVisible = false"
                                    v-model="username" type="text"
                                    :class="{dropdown: usernameListVisible}" class="input text server-input"
-                                   placeholder="Username" name="username">
+                                   placeholder="Username" name="username" autocomplete="off">
                             <div v-show="usernameListVisible" class="server-list">
-                                <p v-if="!filteredCharacters.length">No results</p>
-                                <p v-for="character in filteredCharacters" @click="bindUsername(character)">
-                                    {{ character.region }}-{{ character.server }} {{ character.username }}</p>
+                                <p v-if="!characters.length">No results</p>
+                                <p v-for="character in characters" @click="bindUsername(character)">
+                                    {{ character.username }}</p>
                             </div>
                         </div>
                         <button type="submit" class="btn">Go !</button>
@@ -239,7 +232,9 @@
 <script>
 export default {
     props: [
-        'searchCharacterUrl'
+        'searchCharacterUrl',
+        'serversProp',
+        'charactersProp',
     ],
     data()
     {
@@ -250,44 +245,21 @@ export default {
                 'images/revendreth-01.jpg',
                 'images/maldraxxus-01.jpg'
             ],
-            characters: [
-                {
-                    username: 'Iraldin',
-                    server: 'Ul',
-                    region: 'EU'
-                },
-                {
-                    username: 'Iraldin',
-                    server: 'Ulda',
-                    region: 'EU'
-                },
-                {
-                    username: 'Iraldin',
-                    server: 'Uldama',
-                    region: 'US'
-                },
-                {
-                    username: 'Iraldin',
-                    server: 'Uldaman',
-                    region: 'EU'
-                },
-                {
-                    username: 'Lincce',
-                    server: 'Drek\'thar',
-                    region: 'EU'
-                },
-                {
-                    username: 'Nil',
-                    server: 'Drek\'thar',
-                    region: 'EU'
-                }
-            ],
+            characters: {},
+            servers: {},
             serverListVisible: false,
             usernameListVisible: false,
-            region: null,
-            server: 'U',
-            username: 'I',
+            server: {
+                region: null,
+                name: null
+            },
+            username: '',
         }
+    },
+    mounted()
+    {
+        this.servers = JSON.parse(this.serversProp)
+        this.characters = JSON.parse(this.charactersProp)
     },
     computed: {
         randomBackground: function ()
@@ -295,44 +267,35 @@ export default {
             let random = Math.floor(Math.random() * this.backgrounds.length)
             return this.backgrounds[random]
         },
-        filteredCharacters: function ()
-        {
-            return this.characters.filter(character =>
-            {
-                let region = !this.region || character.region === this.region
-                let server = character.server.startsWith(this.server)
-                let username = character.username.startsWith(this.username)
-                return region && server && username
-            }).slice(0, 5)
-        },
-        listServers: function ()
-        {
-            let charactersSet = new Set()
-            let characters = this.filteredCharacters
-            for (let i = 0; i < characters.length; i++)
-                charactersSet.add({
-                    region: characters[i].region,
-                    server: characters[i].server
-                })
-
-            return [...charactersSet].sort((a, b) => a.server.localeCompare(b.server))
-        },
     },
     methods: {
-        bindServer: function (server)
-        {
-            this.region = server.region
-            this.server = server.server
-            this.serverListVisible = false
-            this.usernameListVisible = false
-        },
         bindUsername: function (character)
         {
-            this.region = character.region
-            this.server = character.server
             this.username = character.username
             this.serverListVisible = false
             this.usernameListVisible = false
+        },
+        filterByServer: function ()
+        {
+            if (this.server.name) {
+                axios.get(`http://local.wow-completionist:3030/api/filter-server/${this.server.region}/${this.server.name}`)
+                    .then(response =>
+                    {
+                        console.log(response.data)
+                        this.characters = response.data
+                    })
+            }
+        },
+        filterByUsername: function ()
+        {
+            if (this.server.name && this.username !== '') {
+                axios.get(`http://local.wow-completionist:3030/api/filter-username/${this.server.region}/${this.server.name}/${this.username}`)
+                    .then(response =>
+                    {
+                        console.log(response.data)
+                        this.characters = response.data
+                    })
+            }
         }
     },
 }

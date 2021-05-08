@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CharacterController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShowLandingPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,7 @@ use App\Http\Controllers\CharacterController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ShowLandingPage::class)->name('landing');
 
 Route::post('/character', [CharacterController::class, 'search'])->name('character.search');
 Route::get('/character/{region}/{server}/{username}', [CharacterController::class, 'show'])->name('character.show');

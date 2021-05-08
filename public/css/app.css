@@ -1,7 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css?family=Open Sans);
 @charset "UTF-8";
 p, h1, h2, h3, a, ul, li, ol {
   color: #FFFFFF;
+  font-family: "Open Sans", serif;
 }
 
 /*!
@@ -10054,6 +10056,26 @@ body {
   background: #303030 !important;
 }
 
+.badge {
+  border: 1px solid #666 !important;
+  background: #202020;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 0.2rem;
+  font-size: 0.9rem;
+  position: relative;
+  padding: 15px 50px;
+}
+.badge .title {
+  position: absolute;
+  top: -8px;
+  left: 15px;
+  font-size: 1rem;
+  text-shadow: 1px 1px 1px #000;
+}
+.badge p {
+  margin: 0;
+}
+
 #landing-page .parallax-window {
   min-height: 750px;
 }
@@ -10117,12 +10139,56 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 50px;
+  align-items: center;
+  padding: 50px 200px;
+  background: no-repeat top;
+  background-size: cover;
 }
 #character .header .summary {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  padding: 25px;
+  justify-content: flex-start;
+  align-items: center;
+  text-shadow: 1px 1px 1px #000;
+}
+#character .header .summary .character-picture {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #101010;
+  box-shadow: 0 0 10px #9ECAED;
+}
+#character .header .summary .identity {
+  padding-left: 35px;
+}
+#character .header .summary .identity .username {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+#character .header .summary .identity p {
+  margin: 0;
+}
+#character .header .achievements-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1rem;
+}
+#character .header .achievements-content img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+#character .header .links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+#character .header .links img {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
 }
 

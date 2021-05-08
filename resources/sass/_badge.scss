@@ -1,0 +1,24 @@
+.badge
+{
+    border        : 1px solid #666 !important;
+    background    : $dark;
+    box-shadow    : 1px 1px 1px rgb(0 0 0 / 50%);
+    border-radius : .2rem;
+    font-size     : .9rem;
+    position      : relative;
+    padding       : 15px 50px;
+
+    .title
+    {
+        position    : absolute;
+        top         : -8px;
+        left        : 15px;
+        font-size   : 1rem;
+        text-shadow : 1px 1px 1px #000;
+    }
+
+    p
+    {
+        margin : 0;
+    }
+}
